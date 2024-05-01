@@ -24,6 +24,7 @@ public class EmployeeController {
         // add to the spring model
         theModel.addAttribute("doctors", theDoctors);
 
+        System.out.println("efelikk");
         return "employees/list-employees";
     }
 
@@ -62,7 +63,7 @@ public class EmployeeController {
         // save the doctor
         employeeService.save(theDoctors);
 
-         // use a redirect to prevent duplicate submissions
+        // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
 

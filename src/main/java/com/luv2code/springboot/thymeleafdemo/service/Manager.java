@@ -30,7 +30,7 @@ public class Manager implements EmployeeService {
 
     @Override
     public Doctors findById(int theId) {
-         return entityManager.find(Doctors.class, theId);     //HAZIR METHOD
+        return entityManager.find(Doctors.class, theId);     //HAZIR METHOD
         /* TypedQuery<Doctors> theQuery = entityManager.createQuery("FROM Doctors where doctor_id = :theId", Doctors.class);
          theQuery.setParameter("theId", theId);
 
@@ -92,9 +92,3 @@ public class Manager implements EmployeeService {
         query.executeUpdate();
     }
 }
-
-
-
-
-
-
