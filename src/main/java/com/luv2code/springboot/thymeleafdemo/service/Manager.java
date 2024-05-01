@@ -1,6 +1,7 @@
 package com.luv2code.springboot.thymeleafdemo.service;
 
 import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
+import com.luv2code.springboot.thymeleafdemo.entity.Patients;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -22,11 +23,21 @@ public class Manager implements EmployeeService {
     @Override
     public List<Doctors> findAll() {
         // create query
-        TypedQuery<Doctors> theQuery = entityManager.createQuery("FROM Doctors Order By surname", Doctors.class);    // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+        TypedQuery<Doctors> theQuery = entityManager.createQuery("FROM Doctors Order By name", Doctors.class);    // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
 
         // return query results
         return theQuery.getResultList();
     }
+
+    @Override
+    public List<Patients> findAll2() {
+        // create query
+        TypedQuery<Patients> theQuery = entityManager.createQuery("FROM Patients Order By name", Patients.class);    // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+
+        // return query results
+        return theQuery.getResultList();
+    }
+
 
     @Override
     public Doctors findById(int theId) {
@@ -58,6 +69,24 @@ public class Manager implements EmployeeService {
 
     @Override
     @Transactional
+    public void save2(Patients thePatients) {
+        String sql = "INSERT INTO patients (patient_id, name, surname, birth_date, gender, phone_number, address) " +
+                "VALUES (:id, :name, :surname, :birthDate, :gender, :phoneNumber, :address)";
+
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", thePatients.getId());
+        query.setParameter("name", thePatients.getName());
+        query.setParameter("surname", thePatients.getSurname());
+        query.setParameter("birthDate", thePatients.getBirthDate());
+        query.setParameter("gender", thePatients.getGender());
+        query.setParameter("phoneNumber", thePatients.getPhoneNumber());
+        query.setParameter("address", thePatients.getAddress());
+
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public void update(Doctors theDoctors) {
         /*String sql = "UPDATE doctors " +
                 "SET name = :name, " +
@@ -78,17 +107,24 @@ public class Manager implements EmployeeService {
 
     @Override
     @Transactional
-    public void deleteById(int theId) {
+    public void deleteById(int theId, String person) {
         /*// retrieve the student                    HAZIR METHOD
         Doctors theDoctors = entityManager.find(Doctors.class, theId);
         // delete the student
         entityManager.remove(theDoctors);*/
 
-
-        // create query
-        String sql = "DELETE FROM Doctors where doctor_id = :theId";   // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
-        Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("theId", theId);
-        query.executeUpdate();
+        if(person == "doctor"){
+            // create query
+            String sql = "DELETE FROM doctors where doctor_id = :theId";   // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+            Query query = entityManager.createNativeQuery(sql);
+            query.setParameter("theId", theId);
+            query.executeUpdate();
+        }else if(person == "patient"){
+            // create query
+            String sql = "DELETE FROM patients where patient_id = :theId";   // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+            Query query = entityManager.createNativeQuery(sql);
+            query.setParameter("theId", theId);
+            query.executeUpdate();
+        }
     }
 }

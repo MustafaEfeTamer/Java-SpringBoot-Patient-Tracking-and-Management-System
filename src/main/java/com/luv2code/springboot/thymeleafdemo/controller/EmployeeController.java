@@ -1,6 +1,7 @@
 package com.luv2code.springboot.thymeleafdemo.controller;
 
 import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
+import com.luv2code.springboot.thymeleafdemo.entity.Patients;
 import com.luv2code.springboot.thymeleafdemo.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,11 +21,12 @@ public class EmployeeController {
     public String listEmployees(Model theModel){
         // get the doctors from db
         List<Doctors> theDoctors = employeeService.findAll();
+        List<Patients> thePatients = employeeService.findAll2();
 
         // add to the spring model
         theModel.addAttribute("doctors", theDoctors);
+        theModel.addAttribute("patients", thePatients);
 
-        System.out.println("efelikk");
         return "employees/list-employees";
     }
 
@@ -35,6 +37,15 @@ public class EmployeeController {
         theModel.addAttribute("doctors", theDoctors);
 
         return "employees/employee-form";
+    }
+
+    @GetMapping("/showFormForAdd2")
+    public String showFormForAdd2(Model theModel){
+        // create model attribute to bind form data
+        Patients thePatients = new Patients();
+        theModel.addAttribute("patients", thePatients);
+
+        return "employees/form-patients";
     }
 
     @GetMapping("/showFormForUpdate")
@@ -52,7 +63,16 @@ public class EmployeeController {
     @GetMapping("/delete")
     public String delete(@RequestParam("doctorId") int theId){
         // delete the doctor
-        employeeService.deleteById(theId);
+        employeeService.deleteById(theId, "doctor");
+
+        // redirect to the /employees/list
+        return "redirect:/employees/list";
+    }
+
+    @GetMapping("/delete2")         // html dosyasında bu anotasyona bakarak bu methodu çalıştırcak method adına göre değil
+    public String delete2(@RequestParam("patientId") int theId2){
+        // delete the patient
+        employeeService.deleteById(theId2, "patient");
 
         // redirect to the /employees/list
         return "redirect:/employees/list";
@@ -66,6 +86,16 @@ public class EmployeeController {
         // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
+
+    @PostMapping("/save2")
+    public String saveEmployee2(@ModelAttribute("patients") Patients thePatients){
+        // save the doctor
+        employeeService.save2(thePatients);
+
+        // use a redirect to prevent duplicate submissions
+        return "redirect:/employees/list";
+    }
+
 
     @PostMapping("/update")
     public String updateEmployee(@ModelAttribute("doctors") Doctors theDoctors){
