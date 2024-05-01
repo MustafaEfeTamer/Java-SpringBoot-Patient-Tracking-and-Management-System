@@ -1,6 +1,6 @@
 package com.luv2code.springboot.thymeleafdemo.controller;
 
-import com.luv2code.springboot.thymeleafdemo.entity.Employee;
+import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
 import com.luv2code.springboot.thymeleafdemo.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +18,11 @@ public class EmployeeController {
 
     @GetMapping("/list")
     public String listEmployees(Model theModel){
-        // get the employees from db
-        List<Employee> theEmployees = employeeService.findAll();
+        // get the doctors from db
+        List<Doctors> theDoctors = employeeService.findAll();
 
         // add to the spring model
-        theModel.addAttribute("employees", theEmployees);
+        theModel.addAttribute("doctors", theDoctors);
 
         return "employees/list-employees";
     }
@@ -30,28 +30,27 @@ public class EmployeeController {
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel){
         // create model attribute to bind form data
-        Employee theEmployee = new Employee();
-        theModel.addAttribute("employee", theEmployee);
+        Doctors theDoctors = new Doctors();
+        theModel.addAttribute("doctors", theDoctors);
 
         return "employees/employee-form";
     }
 
     @GetMapping("/showFormForUpdate")
-    public String showFormForUpdate(@RequestParam("employeeId") int theId, Model theModel){
-        // get the employee from the service
-        Employee theEmployee = employeeService.findById(theId);
+    public String showFormForUpdate(@RequestParam("doctorId") int theId, Model theModel){
+        // get the doctor from the service
+        Doctors theDoctors = employeeService.findById(theId);
 
-        // set employee in the model to prepopulate the form
-        theModel.addAttribute("employee", theEmployee);
+        // set doctor in the model to prepopulate the form
+        theModel.addAttribute("doctors", theDoctors);
 
         // send over to our form
-
         return "employees/employee-form";
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam("employeeId") int theId){
-        // delete the employee
+    public String delete(@RequestParam("doctorId") int theId){
+        // delete the doctor
         employeeService.deleteById(theId);
 
         // redirect to the /employees/list
@@ -59,11 +58,20 @@ public class EmployeeController {
     }
 
     @PostMapping("/save")
-    public String saveEmployee(@ModelAttribute("employee") Employee theEmployee){
-        // save the empoloyee
-        employeeService.save(theEmployee);
+    public String saveEmployee(@ModelAttribute("doctors") Doctors theDoctors){
+        // save the doctor
+        employeeService.save(theDoctors);
 
          // use a redirect to prevent duplicate submissions
+        return "redirect:/employees/list";
+    }
+
+    @PostMapping("/update")
+    public String updateEmployee(@ModelAttribute("doctors") Doctors theDoctors){
+        // update the doctor
+        employeeService.update(theDoctors);
+
+        // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
 }

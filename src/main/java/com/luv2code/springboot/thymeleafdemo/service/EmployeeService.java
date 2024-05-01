@@ -1,17 +1,17 @@
 package com.luv2code.springboot.thymeleafdemo.service;
 
-import com.luv2code.springboot.thymeleafdemo.entity.Employee;
-
+import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
 import java.util.List;
 
 public interface EmployeeService {
 
-    List<Employee> findAll();
+    List<Doctors> findAll();
 
-    Employee findById(int theId);
+    Doctors findById(int theId);
 
-    Employee save(Employee theEmployee);
+    void save(Doctors theDoctors);
+
+    void update(Doctors theDoctors);
 
     void deleteById(int theId);
-
 }
