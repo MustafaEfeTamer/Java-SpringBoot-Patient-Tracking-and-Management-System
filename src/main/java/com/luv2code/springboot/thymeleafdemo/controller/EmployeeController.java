@@ -36,7 +36,7 @@ public class EmployeeController {
         Doctors theDoctors = new Doctors();
         theModel.addAttribute("doctors", theDoctors);
 
-        return "employees/employee-form";
+        return "employees/addEmployee-form";
     }
 
     @GetMapping("/showFormForAdd2")
@@ -44,8 +44,9 @@ public class EmployeeController {
         // create model attribute to bind form data
         Patients thePatients = new Patients();
         theModel.addAttribute("patients", thePatients);
+        System.out.println("efelikk");
 
-        return "employees/form-patients";
+        return "employees/form-addPatients";
     }
 
     @GetMapping("/showFormForUpdate")
@@ -59,6 +60,19 @@ public class EmployeeController {
         // send over to our form
         return "employees/employee-form";
     }
+
+    @GetMapping("/showFormForUpdate2")
+    public String showFormForUpdate2(@RequestParam("patientId") int theId, Model theModel){
+        // get the doctor from the service
+        Patients thePatients = employeeService.findById2(theId);
+
+        // set doctor in the model to prepopulate the form
+        theModel.addAttribute("patients", thePatients);
+
+        // send over to our form
+        return "employees/form-patients";
+    }
+
 
     @GetMapping("/delete")
     public String delete(@RequestParam("doctorId") int theId){
@@ -97,10 +111,21 @@ public class EmployeeController {
     }
 
 
+
+
     @PostMapping("/update")
     public String updateEmployee(@ModelAttribute("doctors") Doctors theDoctors){
         // update the doctor
         employeeService.update(theDoctors);
+
+        // use a redirect to prevent duplicate submissions
+        return "redirect:/employees/list";
+    }
+
+    @PostMapping("/update2")
+    public String updateEmployee(@ModelAttribute("patients") Patients thePatients){
+        // update the doctor
+        employeeService.update2(thePatients);
 
         // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";

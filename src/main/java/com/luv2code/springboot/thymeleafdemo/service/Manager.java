@@ -50,12 +50,24 @@ public class Manager implements EmployeeService {
     }
 
     @Override
+    public Patients findById2(int theId) {
+        return entityManager.find(Patients.class, theId);     //HAZIR METHOD
+        /* TypedQuery<Doctors> theQuery = entityManager.createQuery("FROM Doctors where doctor_id = :theId", Doctors.class);
+         theQuery.setParameter("theId", theId);
+
+         // return query result
+        return theQuery.getSingleResult();*/
+    }
+
+    @Override
     @Transactional
     public void save(Doctors theDoctors) {
         //entityManager.merge(theDoctors);          HAZIR METHOD
 
         String sql = "INSERT INTO doctors (doctor_id, name, surname, professiont, working_hospital) " +
                 "VALUES (:id, :name, :surname, :professiont, :workingHospital)";
+
+        //UPDATE hastane.doktorlar SET soyad = 'Ustaaa' WHERE (doktor_id = '1');
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("id", theDoctors.getId());
@@ -88,7 +100,7 @@ public class Manager implements EmployeeService {
     @Override
     @Transactional
     public void update(Doctors theDoctors) {
-        /*String sql = "UPDATE doctors " +
+        String sql = "UPDATE doctors " +
                 "SET name = :name, " +
                 "surname = :surname, " +
                 "professiont = :professiont, " +
@@ -96,13 +108,37 @@ public class Manager implements EmployeeService {
                 "WHERE doctor_id = :id";
 
         Query query = entityManager.createNativeQuery(sql);
-        query.setParameter("name", theDoctor.getName());
-        query.setParameter("surname", theDoctor.getSurname());
-        query.setParameter("profession", theDoctor.getProfessiont());
-        query.setParameter("workingHospital", theDoctor.getWorkingHospital());
+        query.setParameter("id", theDoctors.getId());
+        query.setParameter("name", theDoctors.getName());
+        query.setParameter("surname", theDoctors.getSurname());
+        query.setParameter("professiont", theDoctors.getProfessiont());
+        query.setParameter("workingHospital", theDoctors.getWorkingHospital());
 
+        query.executeUpdate();
+    }
 
-        query.executeUpdate();*/
+    @Override
+    @Transactional
+    public void update2(Patients thePatients) {
+        String sql = "UPDATE patients " +
+                "SET name = :name, " +
+                "surname = :surname, " +
+                "birth_date = :birthDate, " +
+                "gender = :gender, " +
+                "phone_number = :phoneNumber, " +
+                "address = :address " +
+                "WHERE patient_id = :id";
+
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", thePatients.getId());
+        query.setParameter("name", thePatients.getName());
+        query.setParameter("surname", thePatients.getSurname());
+        query.setParameter("birthDate", thePatients.getBirthDate());
+        query.setParameter("gender", thePatients.getGender());
+        query.setParameter("phoneNumber", thePatients.getPhoneNumber());
+        query.setParameter("address", thePatients.getAddress());
+
+        query.executeUpdate();
     }
 
     @Override
