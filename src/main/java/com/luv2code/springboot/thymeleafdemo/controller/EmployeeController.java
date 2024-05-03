@@ -30,6 +30,31 @@ public class EmployeeController {
         return "employees/list-employees";
     }
 
+    @GetMapping("/gate")
+    public String gateOfUsers() {
+        return "employees/gate-users";
+    }
+
+    @GetMapping("/entryForm")
+    public String entryForm() {
+        return "employees/entryForm";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        if (username.equals("yönetici") && password.equals("yönetici123")) {
+            return "redirect:/employees/list";
+        } else if (username.equals("doktor") && password.equals("doktor123")) {
+            return "redirect:/employees/list2";
+        } else if (username.equals("hasta") && password.equals("hasta123")) {
+            return "redirect:/employees/list3";
+        } else {
+            // Hatalı giriş durumunda bir mesaj gösterebilirsiniz
+            return "redirect:/login?error";
+        }
+    }
+
+
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel){
         // create model attribute to bind form data
@@ -44,7 +69,6 @@ public class EmployeeController {
         // create model attribute to bind form data
         Patients thePatients = new Patients();
         theModel.addAttribute("patients", thePatients);
-        System.out.println("efelikk");
 
         return "employees/form-addPatients";
     }
