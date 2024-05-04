@@ -1,5 +1,6 @@
 package com.luv2code.springboot.thymeleafdemo.controller;
 
+import com.luv2code.springboot.thymeleafdemo.entity.Appointments;
 import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
 import com.luv2code.springboot.thymeleafdemo.entity.Patients;
 import com.luv2code.springboot.thymeleafdemo.service.EmployeeService;
@@ -42,16 +43,37 @@ public class EmployeeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
-        if (username.equals("yönetici") && password.equals("yönetici123")) {
+        if (username.equals("manager") && password.equals("manager123")) {
             return "redirect:/employees/list";
-        } else if (username.equals("doktor") && password.equals("doktor123")) {
+        } else if (username.equals("doctor") && password.equals("doctor123")) {
             return "redirect:/employees/list2";
-        } else if (username.equals("hasta") && password.equals("hasta123")) {
+        } else if (username.equals("patient") && password.equals("patient123")) {
             return "redirect:/employees/list3";
         } else {
             // Hatalı giriş durumunda bir mesaj gösterebilirsiniz
             return "redirect:/login?error";
         }
+    }
+
+
+    @GetMapping("seeDoctorsAppointments")
+    public String seeDoctorsAppointments(Model theModel){
+        // get the doctor's appointments from db
+        List<Appointments> theAppointments = employeeService.findAllAppointmentsDoctors();
+        // add to the spring model
+        theModel.addAttribute("appointmentsDoctors", theAppointments);
+
+        return "employees/list-appointmentsDoctors";
+    }
+
+    @GetMapping("seePatientsAppointments")
+    public String seePatientsAppointments(Model theModel){
+        // get the patient's appointments from db
+        List<Appointments> theAppointments = employeeService.findAllAppointmentsPatients();
+        // add to the spring model
+        theModel.addAttribute("appointmentsPatients", theAppointments);
+
+        return "employees/list-appointmentsPatients";
     }
 
 
@@ -133,8 +155,6 @@ public class EmployeeController {
         // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
-
-
 
 
     @PostMapping("/update")

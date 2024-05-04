@@ -1,5 +1,6 @@
 package com.luv2code.springboot.thymeleafdemo.service;
 
+import com.luv2code.springboot.thymeleafdemo.entity.Appointments;
 import com.luv2code.springboot.thymeleafdemo.entity.Doctors;
 import com.luv2code.springboot.thymeleafdemo.entity.Patients;
 import jakarta.persistence.EntityManager;
@@ -32,7 +33,26 @@ public class Manager implements EmployeeService {
     @Override
     public List<Patients> findAll2() {
         // create query
-        TypedQuery<Patients> theQuery = entityManager.createQuery("FROM Patients Order By name", Patients.class);    // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+        TypedQuery<Patients> theQuery = entityManager.createQuery("FROM Patients Order By name", Patients.class);    // Order by dan sonraki ifade field olan ifade sql deki değil
+
+        // return query results
+        return theQuery.getResultList();
+    }
+
+    @Override
+    public List<Appointments> findAllAppointmentsDoctors() {
+        // create query
+        TypedQuery<Appointments> theQuery = entityManager.createQuery("FROM Appointments Order By doctorId", Appointments.class);    // FROM'dan sonra tam olarak javadaki sınıfın adı olmalı (case sensitive)
+
+        // return query results
+        return theQuery.getResultList();
+    }
+
+
+    @Override
+    public List<Appointments> findAllAppointmentsPatients() {
+        // create query
+        TypedQuery<Appointments> theQuery = entityManager.createQuery("FROM Appointments Order By patientId", Appointments.class);     // Order by dan sonraki ifade field olan ifade sql deki değil
 
         // return query results
         return theQuery.getResultList();
