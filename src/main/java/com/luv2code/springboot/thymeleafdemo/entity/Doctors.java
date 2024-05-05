@@ -21,17 +21,26 @@ public class  Doctors{
     @Column(name = "working_hospital")
     private String workingHospital;
 
+    @Column(name = "doctor_username")
+    private String doctorUsername;
+
+    @Column(name = "doctor_password")
+    private String doctorPassword;
+
+
 
     // define constructors
     public Doctors() {
 
     }
 
-    public Doctors(String name, String surname, String professiont, String workingHospital) {
+    public Doctors(String name, String surname, String professiont, String workingHospital, String doctorUsername, String doctorPassword) {
         this.name = name;
         this.surname = surname;
         this.professiont = professiont;
         this.workingHospital = workingHospital;
+        this.doctorUsername = doctorUsername;
+        this.doctorPassword = doctorPassword;
     }
 
     // define getter/setter
@@ -76,8 +85,23 @@ public class  Doctors{
         this.workingHospital = workingHospital;
     }
 
+    public String getDoctorUsername() {
+        return doctorUsername;
+    }
 
-    // define toString
+    public void setDoctorUsername(String doctorUsername) {
+        this.doctorUsername = doctorUsername;
+    }
+
+    public String getDoctorPassword() {
+        return doctorPassword;
+    }
+
+    public void setDoctorPassword(String doctorPassword) {
+        this.doctorPassword = doctorPassword;
+    }
+
+    // define toString method
     @Override
     public String toString() {
         return "Doctors{" +
@@ -86,6 +110,8 @@ public class  Doctors{
                 ", surname='" + surname + '\'' +
                 ", professiont='" + professiont + '\'' +
                 ", workingHospital='" + workingHospital + '\'' +
+                ", doctorUsername='" + doctorUsername + '\'' +
+                ", doctorPassword='" + doctorPassword + '\'' +
                 '}';
     }
 }

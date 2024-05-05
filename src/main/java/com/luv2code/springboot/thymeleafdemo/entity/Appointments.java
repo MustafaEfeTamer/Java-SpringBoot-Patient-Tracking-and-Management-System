@@ -1,6 +1,5 @@
 package com.luv2code.springboot.thymeleafdemo.entity;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -31,10 +30,10 @@ public class Appointments {
     @Column(name="patient_name")
     private String patientName;
 
+
     public Appointments(){
 
     }
-
 
     public Appointments(int patientId, int doctorId, String appointmentDate, String appointmentTime, String doctorName, String patientName) {
         this.patientId = patientId;

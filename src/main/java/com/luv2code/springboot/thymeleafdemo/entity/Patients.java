@@ -28,18 +28,26 @@ import jakarta.persistence.*;
         @Column(name = "address")
         private String address;
 
+        @Column(name = "patient_username")
+        private String patientUsername;
+
+        @Column(name = "patient_password")
+        private String patientPassword;
+
         // define constructors
         public Patients(){
 
         }
 
-        public Patients(String name, String surname, String birthDate, String gender, String phoneNumber, String address) {
+        public Patients(String name, String surname, String birthDate, String gender, String phoneNumber, String address, String patientUsername, String patientPassword) {
             this.name = name;
             this.surname = surname;
             this.birthDate = birthDate;
             this.gender = gender;
             this.phoneNumber = phoneNumber;
             this.address = address;
+            this.patientUsername = patientUsername;
+            this.patientPassword = patientPassword;
         }
 
 
@@ -100,8 +108,23 @@ import jakarta.persistence.*;
             this.address = address;
         }
 
+        public String getPatientUsername() {
+            return patientUsername;
+        }
 
-        // define toString
+        public void setPatientUsername(String patientUsername) {
+            this.patientUsername = patientUsername;
+        }
+
+        public String getPatientPassword() {
+            return patientPassword;
+        }
+
+        public void setPatientPassword(String patientPassword) {
+            this.patientPassword = patientPassword;
+        }
+
+        // define toString method
         @Override
         public String toString() {
             return "Patients{" +
@@ -112,6 +135,8 @@ import jakarta.persistence.*;
                     ", gender='" + gender + '\'' +
                     ", phoneNumber='" + phoneNumber + '\'' +
                     ", address='" + address + '\'' +
+                    ", patientUsername='" + patientUsername + '\'' +
+                    ", patientPassword='" + patientPassword + '\'' +
                     '}';
         }
     }

@@ -14,6 +14,12 @@ public interface EmployeeService {
     List<Appointments> findAllAppointmentsPatients();
     Doctors findById(int theId);
     Patients findById2(int theId);
+    List<Doctors> findByUsernameAndPassword(String username, String password);
+    List<Patients> findByUsernameAndPassword2(String username, String password);
+
+    boolean authenticateUser(String username, String password);
+    boolean authenticateUser2(String username, String password);
+
 
     void save(Doctors theDoctors);
     void save2(Patients thePatients);

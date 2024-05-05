@@ -31,6 +31,24 @@ public class EmployeeController {
         return "employees/list-employees";
     }
 
+    @GetMapping("/list2")
+    public String listDoctors(Model theModel){
+        // get the doctor from db
+
+        // add to the spring model
+
+        return "employees/list-doctors";
+    }
+
+    @GetMapping("/list3")
+    public String listPatients(Model theModel){
+        // get the patient from db
+
+        // add to the spring model
+
+        return "employees/list-patients";
+    }
+
     @GetMapping("/gate")
     public String gateOfUsers() {
         return "employees/gate-users";
@@ -43,18 +61,17 @@ public class EmployeeController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
-        if (username.equals("manager") && password.equals("manager123")) {
+        if (username.equals("manager") && password.equals("manager123")) {       // for manager panel
             return "redirect:/employees/list";
-        } else if (username.equals("doctor") && password.equals("doctor123")) {
+        } else if (employeeService.authenticateUser(username, password)) {       // for doctor panel
             return "redirect:/employees/list2";
-        } else if (username.equals("patient") && password.equals("patient123")) {
+        } else if (employeeService.authenticateUser2(username, password)) {      // for patient panel
             return "redirect:/employees/list3";
         } else {
             // Hatalı giriş durumunda bir mesaj gösterebilirsiniz
             return "redirect:/login?error";
         }
     }
-
 
     @GetMapping("seeDoctorsAppointments")
     public String seeDoctorsAppointments(Model theModel){
@@ -75,7 +92,6 @@ public class EmployeeController {
 
         return "employees/list-appointmentsPatients";
     }
-
 
     @GetMapping("/showFormForAdd")
     public String showFormForAdd(Model theModel){
@@ -119,7 +135,6 @@ public class EmployeeController {
         return "employees/form-patients";
     }
 
-
     @GetMapping("/delete")
     public String delete(@RequestParam("doctorId") int theId){
         // delete the doctor
@@ -155,7 +170,6 @@ public class EmployeeController {
         // use a redirect to prevent duplicate submissions
         return "redirect:/employees/list";
     }
-
 
     @PostMapping("/update")
     public String updateEmployee(@ModelAttribute("doctors") Doctors theDoctors){
